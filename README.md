@@ -1,2 +1,52 @@
-# spring
-xxx
+# 常用网址
+
+每天用的入口，分四组。改链接直接改对应行。
+
+## 店铺运营
+
+- [抖店商家后台](https://fxg.jinritemai.com/)：抖音小店，商品、订单、售后
+- [巨量千川](https://qianchuan.jinritemai.com/)：投流、视频库打标签
+- [抖音电商学习中心](https://school.jinritemai.com/)：规则、课程、违规查询
+- [快手小店商家后台](https://s.kwaixiaodian.com/)：快手店铺，商品、订单、客服数据
+- [快手服务市场](https://fuwu.kwaixiaodian.com/)：打单、客服等工具
+- [小鹅通管理台](https://admin.xiaoe-tech.com/)：小鹅通店铺、内容上架
+- [抖音](https://www.douyin.com/)
+- [快手](https://www.kuaishou.com/)
+- [巨量引擎](https://www.oceanengine.com/)：广告投放
+- [微信公众平台](https://mp.weixin.qq.com/)：公众号、小鹅通授权
+- [视频号创作者中心](https://channels.weixin.qq.com/)
+- [顺丰速运](https://www.sf-express.com/)：查件、保税仓揽收
+
+## 收U业务
+
+- [币安](https://www.binance.com/)：市价、换U只看这一家
+- [欧易 OKX](https://www.okx.com/)
+- [火币 HTX](https://www.htx.com/)
+- [TronScan](https://tronscan.org/)：波场浏览器，查 TRC20 转账
+- [Etherscan](https://etherscan.io/)：以太坊浏览器，查 ERC20 转账
+- [Mempool](https://mempool.space/)：比特币浏览器，查 BTC 转账
+- [CoinGecko](https://www.coingecko.com/)：币价行情
+- [TronSave](https://tronsave.io/)：TRX 能量租赁
+- [Telegram 网页版](https://web.telegram.org/)
+- [查U机器人](https://t.me/shouchauxbot)：@shouchauxbot
+- [客服机器人](https://t.me/Springcarbot)：@Springcarbot
+- [收U放料频道](https://t.me/shouUfangliaosudulai)
+
+## 常用工具
+
+- [Gmail](https://mail.google.com/)
+- [Google](https://www.google.com/)
+- [YouTube](https://www.youtube.com/)
+- [GitHub](https://github.com/)
+- [X](https://x.com/)
+- [Muse](https://muse.ai/)
+- [Cloudflare](https://dash.cloudflare.com/)：域名、Pages
+- [Cloady](https://cloady.com/)
+- [淘宝](https://www.taobao.com/)
+- [Facebook](https://www.facebook.com/)
+- [Instagram](https://www.instagram.com/)
+
+## 我的站点
+
+- [spring.loc.cc](https://spring.loc.cc/)
+- [Pages 地址](https://spring-loc-cc.pages.dev/)
