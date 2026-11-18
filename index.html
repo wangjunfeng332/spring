@@ -1,53 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spring · 常用工作台</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card: rgba(255, 255, 255, 0.04);
+      --card-hover: rgba(255, 255, 255, 0.09);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: radial-gradient(circle at top right, #1e293b, var(--bg) 60%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 40px 20px 60px;
+    }
+    .container { max-width: 1100px; margin: 0 auto; }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px; margin-bottom: 36px;
+      padding-bottom: 20px; border-bottom: 1px solid var(--border);
+    }
+    .title h1 { font-size: 26px; font-weight: 700; letter-spacing: 0.5px; }
+    .title p { color: var(--muted); font-size: 14px; margin-top: 4px; }
+    .clock {
+      font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums;
+      color: var(--accent);
+    }
+    .search-box {
+      display: flex; gap: 10px; margin-bottom: 36px;
+    }
+    .search-box input {
+      flex: 1; padding: 14px 18px; border-radius: 12px;
+      border: 1px solid var(--border); background: rgba(15, 23, 42, 0.8);
+      color: var(--text); font-size: 15px; outline: none;
+    }
+    .search-box input:focus { border-color: var(--accent); }
+    .search-box button {
+      padding: 0 22px; border-radius: 12px; border: none;
+      background: var(--accent); color: #0f172a; font-weight: 600;
+      cursor: pointer; font-size: 14px;
+    }
+    .group { margin-bottom: 34px; }
+    .group-title {
+      font-size: 16px; font-weight: 600; color: var(--accent);
+      margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 14px;
+    }
+    .card {
+      display: block; text-decoration: none; color: var(--text);
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 16px;
+      transition: all 0.2s ease;
+    }
+    .card:hover {
+      background: var(--card-hover); border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .card-name { font-size: 15px; font-weight: 600; }
+    .card-desc { font-size: 12px; color: var(--muted); margin-top: 5px; line-height: 1.4; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="title">
+        <h1>Spring 常用工作台</h1>
+        <p>每天用的入口 · 分四组快速直达</p>
+      </div>
+      <div class="clock" id="clock">00:00:00</div>
+    </header>
 
-# 常用网址
+    <form class="search-box" action="https://www.google.com/search" method="get" target="_blank">
+      <input type="text" name="q" placeholder="输入关键词按回车搜索 (Google)..." />
+      <button type="submit">搜索</button>
+    </form>
 
-每天用的入口，分四组。改链接直接改对应行。
+    <div class="group">
+      <div class="group-title">🛒 店铺运营</div>
+      <div class="grid">
+        <a class="card" href="https://fxg.jinritemai.com" target="_blank"><div class="card-name">抖店商家后台</div><div class="card-desc">抖音小店，商品、订单、售后</div></a>
+        <a class="card" href="https://qianchuan.jinritemai.com" target="_blank"><div class="card-name">巨量千川</div><div class="card-desc">投流、视频库打标签</div></a>
+        <a class="card" href="https://school.jinritemai.com" target="_blank"><div class="card-name">抖音电商学习中心</div><div class="card-desc">规则、课程、违规查询</div></a>
+        <a class="card" href="https://s.kwaixiaodian.com" target="_blank"><div class="card-name">快手小店商家后台</div><div class="card-desc">快手店铺，商品、订单、客服数据</div></a>
+        <a class="card" href="https://fuwu.kwaixiaodian.com" target="_blank"><div class="card-name">快手服务市场</div><div class="card-desc">打单、客服等工具</div></a>
+        <a class="card" href="https://admin.xiaoe-tech.com" target="_blank"><div class="card-name">小鹅通管理台</div><div class="card-desc">小鹅通店铺、内容上架</div></a>
+        <a class="card" href="https://www.douyin.com" target="_blank"><div class="card-name">抖音</div><div class="card-desc">网页版刷视频 / 查主页</div></a>
+        <a class="card" href="https://www.kuaishou.com" target="_blank"><div class="card-name">快手</div><div class="card-desc">快手网页版</div></a>
+        <a class="card" href="https://ad.oceanengine.com" target="_blank"><div class="card-name">巨量引擎</div><div class="card-desc">广告投放</div></a>
+        <a class="card" href="https://mp.weixin.qq.com" target="_blank"><div class="card-name">微信公众平台</div><div class="card-desc">公众号、小鹅通授权</div></a>
+        <a class="card" href="https://channels.weixin.qq.com" target="_blank"><div class="card-name">视频号创作者中心</div><div class="card-desc">视频号数据与发布</div></a>
+        <a class="card" href="https://www.sf-express.com" target="_blank"><div class="card-name">顺丰速运</div><div class="card-desc">查件、保税仓揽收</div></a>
+      </div>
+    </div>
 
-## 店铺运营
+    <div class="group">
+      <div class="group-title">💱 收U业务</div>
+      <div class="grid">
+        <a class="card" href="https://www.binance.com" target="_blank"><div class="card-name">币安 Binance</div><div class="card-desc">市价、换U只看这一家</div></a>
+        <a class="card" href="https://www.okx.com" target="_blank"><div class="card-name">欧易 OKX</div><div class="card-desc">行情与交易</div></a>
+        <a class="card" href="https://www.htx.com" target="_blank"><div class="card-name">火币 HTX</div><div class="card-desc">行情与交易</div></a>
+        <a class="card" href="https://tronscan.org" target="_blank"><div class="card-name">TronScan</div><div class="card-desc">波场浏览器，查 TRC20 转账</div></a>
+        <a class="card" href="https://etherscan.io" target="_blank"><div class="card-name">Etherscan</div><div class="card-desc">以太坊浏览器，查 ERC20 转账</div></a>
+        <a class="card" href="https://mempool.space" target="_blank"><div class="card-name">Mempool</div><div class="card-desc">比特币浏览器，查 BTC 转账</div></a>
+        <a class="card" href="https://www.coingecko.com" target="_blank"><div class="card-name">CoinGecko</div><div class="card-desc">币价行情</div></a>
+        <a class="card" href="https://tronsave.io" target="_blank"><div class="card-name">TronSave</div><div class="card-desc">TRX 能量租赁</div></a>
+        <a class="card" href="https://web.telegram.org" target="_blank"><div class="card-name">Telegram 网页版</div><div class="card-desc">网页端即时通讯</div></a>
+        <a class="card" href="https://t.me/shouchauxbot" target="_blank"><div class="card-name">查U机器人</div><div class="card-desc">@shouchauxbot</div></a>
+        <a class="card" href="https://t.me/Springcarbot" target="_blank"><div class="card-name">客服机器人</div><div class="card-desc">@Springcarbot</div></a>
+      </div>
+    </div>
 
-- [抖店商家后台](https://fxg.jinritemai.com/)：抖音小店，商品、订单、售后
-- [巨量千川](https://qianchuan.jinritemai.com/)：投流、视频库打标签
-- [抖音电商学习中心](https://school.jinritemai.com/)：规则、课程、违规查询
-- [快手小店商家后台](https://s.kwaixiaodian.com/)：快手店铺，商品、订单、客服数据
-- [快手服务市场](https://fuwu.kwaixiaodian.com/)：打单、客服等工具
-- [小鹅通管理台](https://admin.xiaoe-tech.com/)：小鹅通店铺、内容上架
-- [抖音](https://www.douyin.com/)
-- [快手](https://www.kuaishou.com/)
-- [巨量引擎](https://www.oceanengine.com/)：广告投放
-- [微信公众平台](https://mp.weixin.qq.com/)：公众号、小鹅通授权
-- [视频号创作者中心](https://channels.weixin.qq.com/)
-- [顺丰速运](https://www.sf-express.com/)：查件、保税仓揽收
+    <div class="group">
+      <div class="group-title">🧰 常用工具</div>
+      <div class="grid">
+        <a class="card" href="https://mail.google.com" target="_blank"><div class="card-name">Gmail</div><div class="card-desc">谷歌邮箱</div></a>
+        <a class="card" href="https://www.google.com" target="_blank"><div class="card-name">Google</div><div class="card-desc">谷歌搜索</div></a>
+        <a class="card" href="https://www.youtube.com" target="_blank"><div class="card-name">YouTube</div><div class="card-desc">视频平台</div></a>
+        <a class="card" href="https://github.com" target="_blank"><div class="card-name">GitHub</div><div class="card-desc">代码托管</div></a>
+        <a class="card" href="https://x.com" target="_blank"><div class="card-name">X (Twitter)</div><div class="card-desc">动态与资讯</div></a>
+        <a class="card" href="https://dash.cloudflare.com" target="_blank"><div class="card-name">Cloudflare</div><div class="card-desc">域名、Pages</div></a>
+        <a class="card" href="https://www.taobao.com" target="_blank"><div class="card-name">淘宝</div><div class="card-desc">购物与选品</div></a>
+        <a class="card" href="https://www.facebook.com" target="_blank"><div class="card-name">Facebook</div><div class="card-desc">社交平台</div></a>
+        <a class="card" href="https://www.instagram.com" target="_blank"><div class="card-name">Instagram</div><div class="card-desc">图片与社交</div></a>
+      </div>
+    </div>
 
-## 收U业务
+    <div class="group">
+      <div class="group-title">🌐 我的站点</div>
+      <div class="grid">
+        <a class="card" href="http://spring.loc.cc" target="_blank"><div class="card-name">spring.loc.cc</div><div class="card-desc">自定义主域名入口</div></a>
+        <a class="card" href="https://wangjunfeng332.github.io/spring/" target="_blank"><div class="card-name">GitHub Pages 地址</div><div class="card-desc">默认托管地址</div></a>
+      </div>
+    </div>
+  </div>
 
-- [币安](https://www.binance.com/)：市价、换U只看这一家
-- [欧易 OKX](https://www.okx.com/)
-- [火币 HTX](https://www.htx.com/)
-- [TronScan](https://tronscan.org/)：波场浏览器，查 TRC20 转账
-- [Etherscan](https://etherscan.io/)：以太坊浏览器，查 ERC20 转账
-- [Mempool](https://mempool.space/)：比特币浏览器，查 BTC 转账
-- [CoinGecko](https://www.coingecko.com/)：币价行情
-- [TronSave](https://tronsave.io/)：TRX 能量租赁
-- [Telegram 网页版](https://web.telegram.org/)
-- [查U机器人](https://t.me/shouchauxbot)：@shouchauxbot
-- [客服机器人](https://t.me/Springcarbot)：@Springcarbot
-- [收U放料频道](https://t.me/shouUfangliaosudulai)
-
-## 常用工具
-
-- [Gmail](https://mail.google.com/)
-- [Google](https://www.google.com/)
-- [YouTube](https://www.youtube.com/)
-- [GitHub](https://github.com/)
-- [X](https://x.com/)
-- [Muse](https://muse.ai/)
-- [Cloudflare](https://dash.cloudflare.com/)：域名、Pages
-- [Cloady](https://cloady.com/)
-- [淘宝](https://www.taobao.com/)
-- [Facebook](https://www.facebook.com/)
-- [Instagram](https://www.instagram.com/)
-
-## 我的站点
-
-- [spring.loc.cc](https://spring.loc.cc/)
-- [Pages 地址](https://spring-loc-cc.pages.dev/)
+  <script>
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').textContent = now.toTimeString().split(' ')[0];
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body>
+</html>
