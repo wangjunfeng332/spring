@@ -3,156 +3,507 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spring · 常用工作台</title>
+  <title>Spring · 导航工作台</title>
   <style>
     :root {
-      --bg: #0b0f19;
-      --card: rgba(255, 255, 255, 0.04);
-      --card-hover: rgba(255, 255, 255, 0.09);
-      --border: rgba(255, 255, 255, 0.08);
-      --text: #f1f5f9;
-      --muted: #94a3b8;
-      --accent: #38bdf8;
+      --bg-void: #05070e;
+      --glass-bg: rgba(255, 255, 255, 0.04);
+      --glass-hover: rgba(255, 255, 255, 0.075);
+      --glass-border: rgba(255, 255, 255, 0.09);
+      --glass-border-hi: rgba(255, 255, 255, 0.24);
+      --ink-1: rgba(248, 250, 252, 0.96);
+      --ink-2: rgba(148, 163, 184, 0.84);
+      --ink-3: rgba(100, 116, 139, 0.75);
+      --accent: #7dd3fc;
+      --accent-soft: rgba(125, 211, 252, 0.16);
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: radial-gradient(circle at top right, #1e293b, var(--bg) 60%);
-      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background-color: var(--bg-void);
+      color: var(--ink-1);
       min-height: 100vh;
-      padding: 40px 20px 60px;
+      padding: 40px 20px 84px;
+      position: relative;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
-    .container { max-width: 1100px; margin: 0 auto; }
-    header {
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 16px; margin-bottom: 36px;
-      padding-bottom: 20px; border-bottom: 1px solid var(--border);
+
+    /* 柔光氛围层 */
+    .ambient-layer {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 42% at 18% 12%, rgba(56, 189, 248, 0.14), transparent 68%),
+        radial-gradient(ellipse 55% 45% at 84% 22%, rgba(168, 85, 247, 0.11), transparent 68%),
+        radial-gradient(ellipse 60% 45% at 52% 92%, rgba(45, 212, 191, 0.08), transparent 72%);
     }
-    .title h1 { font-size: 26px; font-weight: 700; letter-spacing: 0.5px; }
-    .title p { color: var(--muted); font-size: 14px; margin-top: 4px; }
-    .clock {
-      font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums;
+
+    /* 微弱网格遮罩，增强空间景深 */
+    .grid-layer {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.024) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.024) 1px, transparent 1px);
+      background-size: 46px 46px;
+      mask-image: radial-gradient(circle at 50% 20%, #000 18%, transparent 78%);
+      -webkit-mask-image: radial-gradient(circle at 50% 20%, #000 18%, transparent 78%);
+    }
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    /* 顶部毛玻璃舱 */
+    .hero-glass {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 26px 30px;
+      border-radius: 24px;
+      background: linear-gradient(150deg, rgba(255, 255, 255, 0.068), rgba(255, 255, 255, 0.02));
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border: 1px solid var(--glass-border);
+      box-shadow:
+        0 24px 60px -15px rgba(0, 0, 0, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.16),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.03);
+      margin-bottom: 20px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
       color: var(--accent);
+      margin-bottom: 8px;
     }
-    .search-box {
-      display: flex; gap: 10px; margin-bottom: 36px;
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
     }
-    .search-box input {
-      flex: 1; padding: 14px 18px; border-radius: 12px;
-      border: 1px solid var(--border); background: rgba(15, 23, 42, 0.8);
-      color: var(--text); font-size: 15px; outline: none;
+    .hero-glass h1 {
+      font-size: 26px;
+      font-weight: 650;
+      letter-spacing: -0.02em;
     }
-    .search-box input:focus { border-color: var(--accent); }
-    .search-box button {
-      padding: 0 22px; border-radius: 12px; border: none;
-      background: var(--accent); color: #0f172a; font-weight: 600;
-      cursor: pointer; font-size: 14px;
+    .hero-glass p {
+      font-size: 13.5px;
+      color: var(--ink-2);
+      margin-top: 6px;
     }
-    .group { margin-bottom: 34px; }
-    .group-title {
-      font-size: 16px; font-weight: 600; color: var(--accent);
-      margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+
+    .clock-card {
+      text-align: right;
+      padding: 12px 18px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
     }
-    .grid {
+    .time {
+      font-size: 28px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.03em;
+      background: linear-gradient(180deg, #ffffff, rgba(186, 230, 253, 0.75));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .date {
+      font-size: 12px;
+      color: var(--ink-2);
+      margin-top: 3px;
+    }
+
+    /* 搜索与过滤工具栏 */
+    .controls {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      grid-template-columns: 1.55fr 1fr;
       gap: 14px;
+      margin-bottom: 18px;
     }
-    .card {
-      display: block; text-decoration: none; color: var(--text);
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 14px 16px;
+    @media (max-width: 740px) {
+      .controls { grid-template-columns: 1fr; }
+    }
+
+    .glass-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 6px 6px 16px;
+      border-radius: 18px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px) saturate(170%);
+      -webkit-backdrop-filter: blur(24px) saturate(170%);
+      border: 1px solid var(--glass-border);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.11);
+      transition: border-color 0.22s ease, background 0.22s ease;
+    }
+    .glass-bar:focus-within {
+      background: var(--glass-hover);
+      border-color: var(--glass-border-hi);
+    }
+    .glass-bar input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: var(--ink-1);
+      font-size: 14px;
+      padding: 9px 4px;
+      outline: none;
+    }
+    .glass-bar input::placeholder { color: var(--ink-3); }
+    .glass-bar button {
+      padding: 10px 20px;
+      border-radius: 13px;
+      border: 1px solid rgba(125, 211, 252, 0.35);
+      background: linear-gradient(135deg, rgba(125, 211, 252, 0.22), rgba(168, 85, 247, 0.16));
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
       transition: all 0.2s ease;
     }
-    .card:hover {
-      background: var(--card-hover); border-color: var(--accent);
-      transform: translateY(-2px);
+    .glass-bar button:hover {
+      background: linear-gradient(135deg, rgba(125, 211, 252, 0.34), rgba(168, 85, 247, 0.25));
+      border-color: rgba(125, 211, 252, 0.6);
     }
-    .card-name { font-size: 15px; font-weight: 600; }
-    .card-desc { font-size: 12px; color: var(--muted); margin-top: 5px; line-height: 1.4; }
+
+    /* 分组标签 */
+    .filter-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    .pill {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.025);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      color: var(--ink-2);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .pill:hover {
+      color: var(--ink-1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    .pill.active {
+      color: #fff;
+      background: var(--accent-soft);
+      border-color: rgba(125, 211, 252, 0.5);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    }
+
+    /* 分区与卡片 */
+    .section { margin-bottom: 36px; }
+    .section.hidden { display: none; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 14px;
+      padding: 0 4px;
+    }
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    .section-num {
+      font-size: 12px;
+      color: var(--ink-3);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(252px, 1fr));
+      gap: 14px;
+    }
+
+    .tile {
+      --gx: 50%;
+      --gy: 50%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      text-decoration: none;
+      color: var(--ink-1);
+      padding: 15px 16px;
+      border-radius: 18px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px) saturate(170%);
+      -webkit-backdrop-filter: blur(24px) saturate(170%);
+      border: 1px solid var(--glass-border);
+      box-shadow:
+        0 12px 32px -12px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+      transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.24s ease, background 0.24s ease;
+    }
+    .tile::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(230px circle at var(--gx) var(--gy), rgba(255, 255, 255, 0.12), transparent 65%);
+      opacity: 0;
+      transition: opacity 0.24s ease;
+      pointer-events: none;
+    }
+    .tile:hover::before { opacity: 1; }
+    .tile.hidden { display: none; }
+    .tile:hover {
+      transform: translateY(-2px);
+      background: var(--glass-hover);
+      border-color: var(--glass-border-hi);
+    }
+
+    .badge-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .badge-icon img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+
+    .tile-info { min-width: 0; flex: 1; }
+    .tile-name {
+      font-size: 14.5px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .tile-sub {
+      font-size: 12px;
+      color: var(--ink-2);
+      margin-top: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .empty {
+      display: none;
+      text-align: center;
+      padding: 52px 20px;
+      border-radius: 20px;
+      background: var(--glass-bg);
+      border: 1px dashed var(--glass-border);
+      color: var(--ink-2);
+      font-size: 14px;
+    }
+    .empty.show { display: block; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="title">
-        <h1>Spring 常用工作台</h1>
-        <p>每天用的入口 · 分四组快速直达</p>
+  <div class="ambient-layer"></div>
+  <div class="grid-layer"></div>
+
+  <div class="wrap">
+    <header class="hero-glass">
+      <div>
+        <div class="eyebrow"><span class="dot"></span>SPRING GLASS HUB</div>
+        <h1>Spring 导航工作台</h1>
+        <p>同步自 README · 高级毛玻璃快速入口</p>
       </div>
-      <div class="clock" id="clock">00:00:00</div>
+      <div class="clock-card">
+        <div class="time" id="time">00:00:00</div>
+        <div class="date" id="date"></div>
+      </div>
     </header>
 
-    <form class="search-box" action="https://www.google.com/search" method="get" target="_blank">
-      <input type="text" name="q" placeholder="输入关键词按回车搜索 (Google)..." />
-      <button type="submit">搜索</button>
-    </form>
-
-    <div class="group">
-      <div class="group-title">🛒 店铺运营</div>
-      <div class="grid">
-        <a class="card" href="https://fxg.jinritemai.com" target="_blank"><div class="card-name">抖店商家后台</div><div class="card-desc">抖音小店，商品、订单、售后</div></a>
-        <a class="card" href="https://qianchuan.jinritemai.com" target="_blank"><div class="card-name">巨量千川</div><div class="card-desc">投流、视频库打标签</div></a>
-        <a class="card" href="https://school.jinritemai.com" target="_blank"><div class="card-name">抖音电商学习中心</div><div class="card-desc">规则、课程、违规查询</div></a>
-        <a class="card" href="https://s.kwaixiaodian.com" target="_blank"><div class="card-name">快手小店商家后台</div><div class="card-desc">快手店铺，商品、订单、客服数据</div></a>
-        <a class="card" href="https://fuwu.kwaixiaodian.com" target="_blank"><div class="card-name">快手服务市场</div><div class="card-desc">打单、客服等工具</div></a>
-        <a class="card" href="https://admin.xiaoe-tech.com" target="_blank"><div class="card-name">小鹅通管理台</div><div class="card-desc">小鹅通店铺、内容上架</div></a>
-        <a class="card" href="https://www.douyin.com" target="_blank"><div class="card-name">抖音</div><div class="card-desc">网页版刷视频 / 查主页</div></a>
-        <a class="card" href="https://www.kuaishou.com" target="_blank"><div class="card-name">快手</div><div class="card-desc">快手网页版</div></a>
-        <a class="card" href="https://ad.oceanengine.com" target="_blank"><div class="card-name">巨量引擎</div><div class="card-desc">广告投放</div></a>
-        <a class="card" href="https://mp.weixin.qq.com" target="_blank"><div class="card-name">微信公众平台</div><div class="card-desc">公众号、小鹅通授权</div></a>
-        <a class="card" href="https://channels.weixin.qq.com" target="_blank"><div class="card-name">视频号创作者中心</div><div class="card-desc">视频号数据与发布</div></a>
-        <a class="card" href="https://www.sf-express.com" target="_blank"><div class="card-name">顺丰速运</div><div class="card-desc">查件、保税仓揽收</div></a>
+    <div class="controls">
+      <form class="glass-bar" action="https://www.google.com/search" method="get" target="_blank">
+        <input type="text" name="q" placeholder="Google 搜索..." autocomplete="off" />
+        <button type="submit">搜索</button>
+      </form>
+      <div class="glass-bar">
+        <input type="text" id="filter" placeholder="筛选当前链接或说明..." autocomplete="off" />
       </div>
     </div>
 
-    <div class="group">
-      <div class="group-title">💱 收U业务</div>
-      <div class="grid">
-        <a class="card" href="https://www.binance.com" target="_blank"><div class="card-name">币安 Binance</div><div class="card-desc">市价、换U只看这一家</div></a>
-        <a class="card" href="https://www.okx.com" target="_blank"><div class="card-name">欧易 OKX</div><div class="card-desc">行情与交易</div></a>
-        <a class="card" href="https://www.htx.com" target="_blank"><div class="card-name">火币 HTX</div><div class="card-desc">行情与交易</div></a>
-        <a class="card" href="https://tronscan.org" target="_blank"><div class="card-name">TronScan</div><div class="card-desc">波场浏览器，查 TRC20 转账</div></a>
-        <a class="card" href="https://etherscan.io" target="_blank"><div class="card-name">Etherscan</div><div class="card-desc">以太坊浏览器，查 ERC20 转账</div></a>
-        <a class="card" href="https://mempool.space" target="_blank"><div class="card-name">Mempool</div><div class="card-desc">比特币浏览器，查 BTC 转账</div></a>
-        <a class="card" href="https://www.coingecko.com" target="_blank"><div class="card-name">CoinGecko</div><div class="card-desc">币价行情</div></a>
-        <a class="card" href="https://tronsave.io" target="_blank"><div class="card-name">TronSave</div><div class="card-desc">TRX 能量租赁</div></a>
-        <a class="card" href="https://web.telegram.org" target="_blank"><div class="card-name">Telegram 网页版</div><div class="card-desc">网页端即时通讯</div></a>
-        <a class="card" href="https://t.me/shouchauxbot" target="_blank"><div class="card-name">查U机器人</div><div class="card-desc">@shouchauxbot</div></a>
-        <a class="card" href="https://t.me/Springcarbot" target="_blank"><div class="card-name">客服机器人</div><div class="card-desc">@Springcarbot</div></a>
-      </div>
+    <div class="filter-pills">
+      <button class="pill active" data-group="all">全部</button>
+      <button class="pill" data-group="u">U</button>
+      <button class="pill" data-group="tools">常用工具</button>
     </div>
 
-    <div class="group">
-      <div class="group-title">🧰 常用工具</div>
-      <div class="grid">
-        <a class="card" href="https://mail.google.com" target="_blank"><div class="card-name">Gmail</div><div class="card-desc">谷歌邮箱</div></a>
-        <a class="card" href="https://www.google.com" target="_blank"><div class="card-name">Google</div><div class="card-desc">谷歌搜索</div></a>
-        <a class="card" href="https://www.youtube.com" target="_blank"><div class="card-name">YouTube</div><div class="card-desc">视频平台</div></a>
-        <a class="card" href="https://github.com" target="_blank"><div class="card-name">GitHub</div><div class="card-desc">代码托管</div></a>
-        <a class="card" href="https://x.com" target="_blank"><div class="card-name">X (Twitter)</div><div class="card-desc">动态与资讯</div></a>
-        <a class="card" href="https://dash.cloudflare.com" target="_blank"><div class="card-name">Cloudflare</div><div class="card-desc">域名、Pages</div></a>
-        <a class="card" href="https://www.taobao.com" target="_blank"><div class="card-name">淘宝</div><div class="card-desc">购物与选品</div></a>
-        <a class="card" href="https://www.facebook.com" target="_blank"><div class="card-name">Facebook</div><div class="card-desc">社交平台</div></a>
-        <a class="card" href="https://www.instagram.com" target="_blank"><div class="card-name">Instagram</div><div class="card-desc">图片与社交</div></a>
+    <section class="section" data-group="u">
+      <div class="section-head">
+        <div class="section-title">💱 U</div>
+        <div class="section-num">9 项</div>
       </div>
-    </div>
+      <div class="cards">
+        <a class="tile" href="https://www.binance.com/" target="_blank">
+          <div class="tile-info"><div class="tile-name">币安</div><div class="tile-sub">binance.com</div></div>
+        </a>
+        <a class="tile" href="https://www.okx.com/" target="_blank">
+          <div class="tile-info"><div class="tile-name">欧易 OKX</div><div class="tile-sub">okx.com</div></div>
+        </a>
+        <a class="tile" href="https://www.htx.com/" target="_blank">
+          <div class="tile-info"><div class="tile-name">火币 HTX</div><div class="tile-sub">htx.com</div></div>
+        </a>
+        <a class="tile" href="https://tronscan.org/" target="_blank">
+          <div class="tile-info"><div class="tile-name">TronScan</div><div class="tile-sub">波场浏览器，查 TRC20 转账</div></div>
+        </a>
+        <a class="tile" href="https://etherscan.io/" target="_blank">
+          <div class="tile-info"><div class="tile-name">Etherscan</div><div class="tile-sub">以太坊浏览器，查 ERC20 转账</div></div>
+        </a>
+        <a class="tile" href="https://mempool.space/" target="_blank">
+          <div class="tile-info"><div class="tile-name">Mempool</div><div class="tile-sub">比特币浏览器，查 BTC 转账</div></div>
+        </a>
+        <a class="tile" href="https://www.coingecko.com/" target="_blank">
+          <div class="tile-info"><div class="tile-name">CoinGecko</div><div class="tile-sub">币价行情</div></div>
+        </a>
+        <a class="tile" href="https://tronsave.io/" target="_blank">
+          <div class="tile-info"><div class="tile-name">TronSave</div><div class="tile-sub">TRX 能量租赁</div></div>
+        </a>
+        <a class="tile" href="https://web.telegram.org/" target="_blank">
+          <div class="tile-info"><div class="tile-name">Telegram 网页版</div><div class="tile-sub">web.telegram.org</div></div>
+        </a>
+      </div>
+    </section>
 
-    <div class="group">
-      <div class="group-title">🌐 我的站点</div>
-      <div class="grid">
-        <a class="card" href="http://spring.loc.cc" target="_blank"><div class="card-name">spring.loc.cc</div><div class="card-desc">自定义主域名入口</div></a>
-        <a class="card" href="https://wangjunfeng332.github.io/spring/" target="_blank"><div class="card-name">GitHub Pages 地址</div><div class="card-desc">默认托管地址</div></a>
+    <section class="section" data-group="tools">
+      <div class="section-head">
+        <div class="section-title">🧰 常用工具</div>
+        <div class="section-num">7 项</div>
       </div>
-    </div>
+      <div class="cards">
+        <a class="tile" href="https://mail.google.com/" target="_blank">
+          <div class="tile-info"><div class="tile-name">Gmail</div><div class="tile-sub">mail.google.com</div></div>
+        </a>
+        <a class="tile" href="https://www.google.com/" target="_blank">
+          <div class="tile-info"><div class="tile-name">Google</div><div class="tile-sub">google.com</div></div>
+        </a>
+        <a class="tile" href="https://www.youtube.com/" target="_blank">
+          <div class="tile-info"><div class="tile-name">YouTube</div><div class="tile-sub">youtube.com</div></div>
+        </a>
+        <a class="tile" href="https://github.com/" target="_blank">
+          <div class="tile-info"><div class="tile-name">GitHub</div><div class="tile-sub">github.com</div></div>
+        </a>
+        <a class="tile" href="https://x.com/" target="_blank">
+          <div class="tile-info"><div class="tile-name">X</div><div class="tile-sub">x.com</div></div>
+        </a>
+        <a class="tile" href="https://muse.ai/" target="_blank">
+          <div class="tile-info"><div class="tile-name">Muse</div><div class="tile-sub">muse.ai</div></div>
+        </a>
+        <a class="tile" href="https://cloady.com/" target="_blank">
+          <div class="tile-info"><div class="tile-name">Cloady</div><div class="tile-sub">cloady.com</div></div>
+        </a>
+      </div>
+    </section>
+
+    <div class="empty" id="empty">没有匹配的链接，换个关键词试试。</div>
   </div>
 
   <script>
     function updateClock() {
       const now = new Date();
-      document.getElementById('clock').textContent = now.toTimeString().split(' ')[0];
+      document.getElementById('time').textContent = now.toTimeString().split(' ')[0];
+      const days = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+      document.getElementById('date').textContent =
+        `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} · ${days[now.getDay()]}`;
     }
     setInterval(updateClock, 1000);
     updateClock();
+
+    document.querySelectorAll('.tile').forEach(tile => {
+      const url = new URL(tile.href);
+      const label = tile.querySelector('.tile-name').textContent.trim();
+      const iconBox = document.createElement('div');
+      iconBox.className = 'badge-icon';
+
+      const img = document.createElement('img');
+      img.src = `https://www.google.com/s2/favicons?domain=${url.hostname}&sz=64`;
+      img.alt = '';
+      img.onerror = () => {
+        iconBox.textContent = label.charAt(0).toUpperCase();
+      };
+      iconBox.appendChild(img);
+      tile.prepend(iconBox);
+
+      tile.addEventListener('mousemove', e => {
+        const rect = tile.getBoundingClientRect();
+        tile.style.setProperty('--gx', `${e.clientX - rect.left}px`);
+        tile.style.setProperty('--gy', `${e.clientY - rect.top}px`);
+      });
+    });
+
+    let currentGroup = 'all';
+    const filterEl = document.getElementById('filter');
+    const emptyEl = document.getElementById('empty');
+
+    function runFilter() {
+      const q = filterEl.value.trim().toLowerCase();
+      let shown = 0;
+
+      document.querySelectorAll('.section').forEach(sec => {
+        const groupMatch = currentGroup === 'all' || sec.dataset.group === currentGroup;
+        let secShown = 0;
+
+        sec.querySelectorAll('.tile').forEach(tile => {
+          const textMatch = !q || tile.textContent.toLowerCase().includes(q);
+          const visible = groupMatch && textMatch;
+          tile.classList.toggle('hidden', !visible);
+          if (visible) secShown++;
+        });
+
+        sec.classList.toggle('hidden', secShown === 0);
+        shown += secShown;
+      });
+
+      emptyEl.classList.toggle('show', shown === 0);
+    }
+
+    document.querySelectorAll('.pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        currentGroup = btn.dataset.group;
+        runFilter();
+      });
+    });
+
+    filterEl.addEventListener('input', runFilter);
   </script>
 </body>
 </html>
