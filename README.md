@@ -19,6 +19,3 @@
 - [X](https://x.com/)
 - [Muse](https://muse.ai/)
 - [Cloady](https://cloady.com/)
-- [淘宝](https://www.taobao.com/)
-- [Facebook](https://www.facebook.com/)
-- [Instagram](https://www.instagram.com/)
